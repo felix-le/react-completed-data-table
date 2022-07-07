@@ -1,6 +1,6 @@
-var axios = require('axios');
-var MockAdapter = require('axios-mock-adapter');
-var { db } = require('../mock/mockData');
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import { db } from '../mock/mockData';
 const mock = new MockAdapter(axios);
 
 mock.onGet('/api/todos').reply(200, db.todos);
