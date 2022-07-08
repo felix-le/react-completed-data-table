@@ -89,6 +89,7 @@ function Tables({ tableTitle, description, data }) {
     setIndeterminate(isIndeterminate);
     checkbox.current.indeterminate = isIndeterminate;
   }, [selectedTodos, finalDisplayData]);
+
   return (
     <div className='px-4 sm:px-6 lg:px-8'>
       <TableTitle
