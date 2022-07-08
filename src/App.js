@@ -33,17 +33,6 @@ function App() {
   const context = useContext(GlobalContext);
   const { todos } = context;
 
-  // function contentFormat(type, value, showText) {
-  //   console.log('🚀 ~ file: App.js ~ line 37 ~ contentFormat ~ type', type);
-  //   // console.log('🚀 ~ file: App.js ~ line 37 ~ contentFormat ~ type', type);
-  //   switch (type) {
-  //     case 'completed':
-  //       return value === false ? 'No' : 'Yes';
-  //     default:
-  //       return value;
-  //   }
-  // }
-
   return <Tables data={todos} headers={headers} description='todo list' />;
 }
 
