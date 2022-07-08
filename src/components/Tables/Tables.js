@@ -7,36 +7,15 @@ const tableStyles = createUseStyles({
     textAlign: 'center',
   },
 });
-function Tables2({ tableTitle, description, data }) {
-  console.log('🚀 ~ file: Tables.js ~ line 11 ~ Tables2 ~ data', data);
+function Tables({ tableTitle, description, data }) {
   const checkbox = useRef();
   const classes = tableStyles({});
-  const finalDisplayData = useMemo(() => data || [], [data]);
 
   const [checked, setChecked] = useState(false);
   const [selectedTodos, setSelectedTodos] = useState([]);
   const [indeterminate, setIndeterminate] = useState(false);
 
   const [completedTodos, setCompletedTodos] = useState([]);
-
-  useLayoutEffect(() => {
-    const completedTodos = finalDisplayData.filter((todo) => todo.isCompleted);
-
-    const completedTodosDefault = completedTodos.map((todo) => {
-      return todo.id;
-    });
-    setCompletedTodos(completedTodosDefault);
-  }, [finalDisplayData]);
-
-  // use Layout Effect to update the checkbox state
-  // when the selectedTodos state changes or the finalDisplayData state changes (in the case search)
-  useLayoutEffect(() => {
-    const isIndeterminate =
-      selectedTodos.length > 0 &&
-      selectedTodos.length < finalDisplayData.length;
-    setIndeterminate(isIndeterminate);
-    checkbox.current.indeterminate = isIndeterminate;
-  }, [selectedTodos, finalDisplayData]);
 
   const _handleSelectOneTodo = (e, todoId) => {
     if (!selectedTodos.includes(todoId)) {
@@ -91,6 +70,25 @@ function Tables2({ tableTitle, description, data }) {
         return 'Unknown';
     }
   }
+
+  const finalDisplayData = useMemo(() => data || [], [data]);
+  useLayoutEffect(() => {
+    const completedTodos = finalDisplayData.filter((todo) => todo.isCompleted);
+    const completedTodosDefault = completedTodos.map((todo) => {
+      return todo.id;
+    });
+    setCompletedTodos(completedTodosDefault);
+  }, [finalDisplayData]);
+
+  // use Layout Effect to update the checkbox state
+  // when the selectedTodos state changes or the finalDisplayData state changes (in the case search)
+  useLayoutEffect(() => {
+    const isIndeterminate =
+      selectedTodos.length > 0 &&
+      selectedTodos.length < finalDisplayData.length;
+    setIndeterminate(isIndeterminate);
+    checkbox.current.indeterminate = isIndeterminate;
+  }, [selectedTodos, finalDisplayData]);
   return (
     <div className='px-4 sm:px-6 lg:px-8'>
       <TableTitle
@@ -198,4 +196,4 @@ function Tables2({ tableTitle, description, data }) {
   );
 }
 
-export default Tables2;
+export default Tables;
