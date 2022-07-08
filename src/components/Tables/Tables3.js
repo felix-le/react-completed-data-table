@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import TableTitle from './TableTitle';
 
@@ -10,18 +10,46 @@ const tableStyles = createUseStyles({
 function Tables2({ tableTitle, description, data, contentFormat }) {
   const checkbox = useRef();
   const classes = tableStyles({});
+  const finalDisplayData = data || [];
 
   const [checked, setChecked] = useState(false);
+  const [selectedTodos, setSelectedTodos] = useState([]);
+  const [indeterminate, setIndeterminate] = useState(false);
+
+  // use Layout Effect to update the checkbox state
+  // when the selectedTodos state changes or the finalDisplayData state changes (in the case search)
+  useLayoutEffect(() => {
+    const isIndeterminate =
+      selectedTodos.length > 0 &&
+      selectedTodos.length < finalDisplayData.length;
+    setIndeterminate(isIndeterminate);
+    checkbox.current.indeterminate = isIndeterminate;
+  }, [selectedTodos, finalDisplayData]);
 
   const _handleAddTodo = () => {
     console.log('add todo');
   };
 
-  const _toggleAll = () => {
-    console.log('toggle all');
+  const _selectedAll = (e) => {
+    setSelectedTodos(e.target.checked ? data.map((t) => t.id) : []);
+    setChecked(!checked && !indeterminate);
+    setIndeterminate(false);
   };
 
-  const finalDisplayData = data || [];
+  const _handleEditTodo = (id) => {
+    console.log(id);
+  };
+  const _handleRemoveTodo = (id) => {
+    console.log(id);
+  };
+
+  const _handleSelectOneTodo = (e, todoId) => {
+    if (!selectedTodos.includes(todoId)) {
+      setSelectedTodos([...selectedTodos, todoId]);
+    } else {
+      setSelectedTodos(selectedTodos.filter((id) => id !== todoId));
+    }
+  };
 
   function showPriority(priority) {
     switch (priority) {
@@ -35,14 +63,6 @@ function Tables2({ tableTitle, description, data, contentFormat }) {
         return 'Unknown';
     }
   }
-
-  const _handleEditTodo = (id) => {
-    console.log(id);
-  };
-  const _handleRemoveTodo = (id) => {
-    console.log(id);
-  };
-
   return (
     <div className='px-4 sm:px-6 lg:px-8'>
       <TableTitle
@@ -61,7 +81,7 @@ function Tables2({ tableTitle, description, data, contentFormat }) {
                     className='left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6'
                     ref={checkbox}
                     checked={checked}
-                    onChange={_toggleAll}
+                    onChange={_selectedAll}
                   />
                 </th>
                 <th>Title</th>
@@ -76,13 +96,18 @@ function Tables2({ tableTitle, description, data, contentFormat }) {
             </thead>
             <tbody>
               {finalDisplayData.map((item) => {
+                const isTodoSelected = selectedTodos.includes(item.id);
+
                 return (
                   <tr key={item.id}>
                     <td>
                       <input
                         type='checkbox'
                         value={item.id}
-                        // checked =
+                        checked={isTodoSelected}
+                        onChange={(e) => {
+                          _handleSelectOneTodo(e, item.id);
+                        }}
                       />
                     </td>
                     <td>{item.title}</td>
