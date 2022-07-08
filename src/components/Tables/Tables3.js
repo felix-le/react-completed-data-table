@@ -8,6 +8,7 @@ const tableStyles = createUseStyles({
   },
 });
 function Tables2({ tableTitle, description, data, contentFormat }) {
+  console.log('🚀 ~ file: Tables3.js ~ line 11 ~ Tables2 ~ data', data);
   const checkbox = useRef();
   const classes = tableStyles({});
   const finalDisplayData = data || [];
@@ -78,7 +79,7 @@ function Tables2({ tableTitle, description, data, contentFormat }) {
                 <th>
                   <input
                     type='checkbox'
-                    className='left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6'
+                    className='left-4 top-1/2 -mt-2 h-4 w-4 rounded text-indigo-600 focus:ring-indigo-500 sm:left-6'
                     ref={checkbox}
                     checked={checked}
                     onChange={_selectedAll}
@@ -116,10 +117,12 @@ function Tables2({ tableTitle, description, data, contentFormat }) {
                     <td>{item.updatedAt}</td>
                     <td>{item.email}</td>
                     <td>{item.isGoing ? 'Yes' : 'No'}</td>
+                    {/* isCompleted */}
                     <td>
                       <input
                         type='checkbox'
                         value={item.id}
+                        defaultChecked={item.isCompleted}
                         // checked =
                       />
                     </td>
