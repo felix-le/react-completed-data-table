@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState, useEffect } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 
 import { getTodos } from '../api/mock';
 import TodoReducer from './TodoReducer';

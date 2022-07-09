@@ -1,12 +1,45 @@
 import React, { useRef, useState, useLayoutEffect, useMemo } from 'react';
 import { createUseStyles } from 'react-jss';
+
+import { SortAscendingIcon, SortDescendingIcon } from '@heroicons/react/solid';
+
+// components
 import TableTitle from './TableTitle';
+import SearchBar from './SearchBar';
+
+// Logic functions
+import getTodos from '../utils/getTodos';
+
+// constants
+import {
+  SORT_DIRECTION,
+  TODO_SORTING_ATEGORIES,
+  flipSortDirection,
+} from '../utils/constants';
 
 const tableStyles = createUseStyles({
   dataTableWrapper: {
     textAlign: 'center',
+    '& th': {
+      cursor: 'pointer',
+      height: '30px',
+
+      '& .titleWrapper': {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    },
+
+    '& .sortingIcon': {
+      height: '20px',
+      width: 'auto',
+      marginTop: '4px',
+      marginLeft: '10px',
+    },
   },
 });
+
 function Tables({ tableTitle, description, data }) {
   const checkbox = useRef();
   const classes = tableStyles({});
@@ -14,8 +47,15 @@ function Tables({ tableTitle, description, data }) {
   const [checked, setChecked] = useState(false);
   const [selectedTodos, setSelectedTodos] = useState([]);
   const [indeterminate, setIndeterminate] = useState(false);
-
   const [completedTodos, setCompletedTodos] = useState([]);
+
+  const [sortCol, setSortCol] = useState(TODO_SORTING_ATEGORIES.TODO_TITLE);
+  const [sortDirection, setSortDirection] = useState(SORT_DIRECTION.ASC);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const displayTodos = data.sort((a, b) =>
+    a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1 || []
+  );
 
   const _handleSelectOneTodo = (e, todoId) => {
     if (!selectedTodos.includes(todoId)) {
@@ -28,14 +68,11 @@ function Tables({ tableTitle, description, data }) {
     setSelectedTodos(e.target.checked ? finalDisplayData.map((t) => t.id) : []);
 
     if (indeterminate) {
-      setIndeterminate(false);
       setChecked(true);
+      setIndeterminate(false);
     }
     if (checked) {
       setChecked(false);
-      setIndeterminate(false);
-    } else {
-      setChecked(true);
       setIndeterminate(false);
     }
   };
@@ -71,7 +108,11 @@ function Tables({ tableTitle, description, data }) {
     }
   }
 
-  const finalDisplayData = useMemo(() => data || [], [data]);
+  const finalDisplayData = useMemo(
+    () => getTodos(displayTodos, searchTerm, sortCol, sortDirection),
+    [displayTodos, searchTerm, sortCol, sortDirection]
+  );
+
   useLayoutEffect(() => {
     const completedTodos = finalDisplayData.filter((todo) => todo.isCompleted);
     const completedTodosDefault = completedTodos.map((todo) => {
@@ -80,7 +121,7 @@ function Tables({ tableTitle, description, data }) {
     setCompletedTodos(completedTodosDefault);
   }, [finalDisplayData]);
 
-  // use Layout Effect to update the checkbox state
+  // use Layout Effect to update the checkbox all state
   // when the selectedTodos state changes or the finalDisplayData state changes (in the case search)
   useLayoutEffect(() => {
     const isIndeterminate =
@@ -88,6 +129,20 @@ function Tables({ tableTitle, description, data }) {
       selectedTodos.length < finalDisplayData.length;
     setIndeterminate(isIndeterminate);
     checkbox.current.indeterminate = isIndeterminate;
+    // if the selectedTodos  === finalDisplayData.length, then set checked to true
+    if (selectedTodos.length === finalDisplayData.length) {
+      checkbox.current.indeterminate = false;
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+
+    // if the selectedTodos > 0 finally, then set indeterminate to true
+
+    if (selectedTodos.length > finalDisplayData.length) {
+      checkbox.current.indeterminate = true;
+      setIndeterminate(true);
+    }
   }, [selectedTodos, finalDisplayData]);
 
   return (
@@ -97,6 +152,7 @@ function Tables({ tableTitle, description, data }) {
         description={description}
         handleAddTodo={_handleAddTodo}
       />
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className={`${classes.dataTableWrapper} dataTables_wrapper `}>
         <div className='datatable-scroll'>
           <table className='table datatable-sorting dataTable w-full'>
@@ -111,13 +167,91 @@ function Tables({ tableTitle, description, data }) {
                     onChange={_selectedAll}
                   />
                 </th>
-                <th>Title</th>
-                <th>Priority</th>
-                <th>createdAt</th>
-                <th>Updated At</th>
-                <th>Processing</th>
-                <th>Email</th>
-                <th>Completed</th>
+                <th>
+                  <div className='titleWrapper'>
+                    <span>Title</span>
+                    {sortCol === TODO_SORTING_ATEGORIES.TODO_TITLE &&
+                    sortDirection === SORT_DIRECTION.ASC ? (
+                      <SortAscendingIcon className='sortingIcon' />
+                    ) : (
+                      <SortDescendingIcon className='sortingIcon' />
+                    )}
+                  </div>
+                </th>
+                {/* <th>Priority</th> */}
+                <th>
+                  <div className='titleWrapper'>
+                    <span>Priority</span>
+                    {sortCol === TODO_SORTING_ATEGORIES.TODO_PRIORITY &&
+                    sortDirection === SORT_DIRECTION.ASC ? (
+                      <SortAscendingIcon className='sortingIcon' />
+                    ) : (
+                      <SortDescendingIcon className='sortingIcon' />
+                    )}
+                  </div>
+                </th>
+                {/* <th>createdAt</th> */}
+                <th>
+                  <div className='titleWrapper'>
+                    <span>Created At</span>
+                    {sortCol === TODO_SORTING_ATEGORIES.TODO_CREATED_AT &&
+                    sortDirection === SORT_DIRECTION.ASC ? (
+                      <SortAscendingIcon className='sortingIcon' />
+                    ) : (
+                      <SortDescendingIcon className='sortingIcon' />
+                    )}
+                  </div>
+                </th>
+                {/* <th>Updated At</th>
+                 */}
+                <th>
+                  <div className='titleWrapper'>
+                    <span>Updated At</span>
+                    {sortCol === TODO_SORTING_ATEGORIES.TODO_UPDATED_AT &&
+                    sortDirection === SORT_DIRECTION.ASC ? (
+                      <SortAscendingIcon className='sortingIcon' />
+                    ) : (
+                      <SortDescendingIcon className='sortingIcon' />
+                    )}
+                  </div>
+                </th>
+                {/* <th>Processing</th> */}
+                <th>
+                  <div className='titleWrapper'>
+                    <span>Processing</span>
+                    {sortCol === TODO_SORTING_ATEGORIES.TODO_IS_GOING &&
+                    sortDirection === SORT_DIRECTION.ASC ? (
+                      <SortAscendingIcon className='sortingIcon' />
+                    ) : (
+                      <SortDescendingIcon className='sortingIcon' />
+                    )}
+                  </div>
+                </th>
+                {/* <th>Email</th> */}
+                <th>
+                  <div className='titleWrapper'>
+                    <span>Email</span>
+                    {sortCol === TODO_SORTING_ATEGORIES.TODO_EMAIL &&
+                    sortDirection === SORT_DIRECTION.ASC ? (
+                      <SortAscendingIcon className='sortingIcon' />
+                    ) : (
+                      <SortDescendingIcon className='sortingIcon' />
+                    )}
+                  </div>
+                </th>
+                {/* <th>Completed</th> */}
+                <th>
+                  <div className='titleWrapper'>
+                    <span>Completed</span>
+                    {sortCol === TODO_SORTING_ATEGORIES.TODO_IS_COMPLETED &&
+                    sortDirection === SORT_DIRECTION.ASC ? (
+                      <SortAscendingIcon className='sortingIcon' />
+                    ) : (
+                      <SortDescendingIcon className='sortingIcon' />
+                    )}
+                  </div>
+                </th>
+
                 <th>Action</th>
               </tr>
             </thead>
