@@ -1,3 +1,5 @@
+# [Live Link](https://gentle-narwhal-9f9ac7.netlify.app/)
+
 # Overview
 
 - A todo list with useContext, tailwindcss, and jss
@@ -6,8 +8,6 @@
 - unit tests
 
 - Sort by columns
-
-Live Link: [](https://todo-list-with-use-context.netlify.app/)
 
 - **Mock data**
 
