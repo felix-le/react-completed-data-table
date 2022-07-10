@@ -140,7 +140,6 @@ function Tables({ tableTitle, description, data }) {
     }
 
     // if the selectedTodos > 0 finally, then set indeterminate to true
-
     if (selectedTodos.length > finalDisplayData.length) {
       checkbox.current.indeterminate = true;
       setIndeterminate(true);

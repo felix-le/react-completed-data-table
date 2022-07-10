@@ -11,6 +11,43 @@
 
 - Sort by columns
 
+```js
+const finalDisplayData = useMemo(
+  () => getTodos(displayTodos, searchTerm, sortCol, sortDirection),
+  [displayTodos, searchTerm, sortCol, sortDirection]
+);
+
+useLayoutEffect(() => {
+  const completedTodos = finalDisplayData.filter((todo) => todo.isCompleted);
+  const completedTodosDefault = completedTodos.map((todo) => {
+    return todo.id;
+  });
+  setCompletedTodos(completedTodosDefault);
+}, [finalDisplayData]);
+
+// use Layout Effect to update the checkbox all state
+// when the selectedTodos state changes or the finalDisplayData state changes (in the case search)
+useLayoutEffect(() => {
+  const isIndeterminate =
+    selectedTodos.length > 0 && selectedTodos.length < finalDisplayData.length;
+  setIndeterminate(isIndeterminate);
+  checkbox.current.indeterminate = isIndeterminate;
+  // if the selectedTodos  === finalDisplayData.length, then set checked to true
+  if (selectedTodos.length === finalDisplayData.length) {
+    checkbox.current.indeterminate = false;
+    setChecked(true);
+  } else {
+    setChecked(false);
+  }
+
+  // if the selectedTodos > 0 finally, then set indeterminate to true
+  if (selectedTodos.length > finalDisplayData.length) {
+    checkbox.current.indeterminate = true;
+    setIndeterminate(true);
+  }
+}, [selectedTodos, finalDisplayData]);
+```
+
 - **Mock data**
 
 ```js
