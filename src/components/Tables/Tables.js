@@ -1,11 +1,11 @@
-import React, { useRef, useState, useLayoutEffect, useMemo } from 'react';
+import React, { useState, useLayoutEffect, useMemo } from 'react';
 import { createUseStyles } from 'react-jss';
-
-import { SortAscendingIcon, SortDescendingIcon } from '@heroicons/react/solid';
 
 // components
 import TableTitle from './TableTitle';
 import SearchBar from './SearchBar';
+import TableHeader from './TableHeader';
+import Row from './Row';
 
 // Logic functions
 import getTodos from '../utils/getTodos';
@@ -13,7 +13,7 @@ import getTodos from '../utils/getTodos';
 // constants
 import {
   SORT_DIRECTION,
-  TODO_SORTING_ATEGORIES,
+  TODO_SORTING_CATEGORIES,
   flipSortDirection,
 } from '../utils/constants';
 
@@ -43,7 +43,7 @@ const tableStyles = createUseStyles({
 });
 
 function Tables({ tableTitle, description, data }) {
-  const checkbox = useRef();
+  const checkbox = React.createRef();
   const classes = tableStyles({});
 
   const [checked, setChecked] = useState(false);
@@ -51,7 +51,8 @@ function Tables({ tableTitle, description, data }) {
   const [indeterminate, setIndeterminate] = useState(false);
   const [completedTodos, setCompletedTodos] = useState([]);
 
-  const [sortCol, setSortCol] = useState(TODO_SORTING_ATEGORIES.TODO_TITLE);
+  const [sortCol, setSortCol] = useState(TODO_SORTING_CATEGORIES.TODO_TITLE);
+
   const [sortDirection, setSortDirection] = useState(SORT_DIRECTION.ASC);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -97,19 +98,6 @@ function Tables({ tableTitle, description, data }) {
     }
   };
 
-  function showPriority(priority) {
-    switch (priority) {
-      case 0:
-        return 'High';
-      case 1:
-        return 'Medium';
-      case 2:
-        return 'Low';
-      default:
-        return 'Unknown';
-    }
-  }
-
   const finalDisplayData = useMemo(
     () => getTodos(displayTodos, searchTerm, sortCol, sortDirection),
     [displayTodos, searchTerm, sortCol, sortDirection]
@@ -144,8 +132,11 @@ function Tables({ tableTitle, description, data }) {
       checkbox.current.indeterminate = true;
       setIndeterminate(true);
     }
-  }, [selectedTodos, finalDisplayData]);
-
+  }, [selectedTodos, finalDisplayData, checkbox]);
+  function _handleChangeSort(col) {
+    setSortCol(col);
+    setSortDirection(flipSortDirection(sortDirection));
+  }
   return (
     <div className='px-4 sm:px-6 lg:px-8'>
       <TableTitle
@@ -158,152 +149,16 @@ function Tables({ tableTitle, description, data }) {
         <div className='datatable-scroll'>
           <table className='table datatable-sorting dataTable w-full'>
             <thead>
-              <tr>
-                <th>
-                  <div
-                    className='titleWrapper'
-                    style={{ height: '100%', paddingTop: '5px' }}
-                  >
-                    <input
-                      type='checkbox'
-                      className='left-4 top-1/2 -mt-2 h-4 w-4 rounded text-indigo-600 focus:ring-indigo-500 sm:left-6'
-                      ref={checkbox}
-                      checked={checked}
-                      onChange={_selectedAll}
-                    />
-                  </div>
-                </th>
-                <th>
-                  <div
-                    className='titleWrapper'
-                    onClick={() => {
-                      setSortCol(TODO_SORTING_ATEGORIES.TODO_TITLE);
-                      setSortDirection(flipSortDirection(sortDirection));
-                    }}
-                  >
-                    <span>Title</span>
-                    {sortCol === TODO_SORTING_ATEGORIES.TODO_TITLE &&
-                    sortDirection === SORT_DIRECTION.ASC ? (
-                      <SortAscendingIcon className='sortingIcon' />
-                    ) : (
-                      <SortDescendingIcon className='sortingIcon' />
-                    )}
-                  </div>
-                </th>
-                {/* <th>Priority</th> */}
-                <th>
-                  <div
-                    className='titleWrapper'
-                    onClick={() => {
-                      setSortCol(TODO_SORTING_ATEGORIES.TODO_PRIORITY);
-                      setSortDirection(flipSortDirection(sortDirection));
-                    }}
-                  >
-                    <span>Priority</span>
-                    {sortCol === TODO_SORTING_ATEGORIES.TODO_PRIORITY &&
-                    sortDirection === SORT_DIRECTION.ASC ? (
-                      <SortAscendingIcon className='sortingIcon' />
-                    ) : (
-                      <SortDescendingIcon className='sortingIcon' />
-                    )}
-                  </div>
-                </th>
-                {/* <th>createdAt</th> */}
-                <th>
-                  <div
-                    className='titleWrapper'
-                    onClick={() => {
-                      setSortCol(TODO_SORTING_ATEGORIES.TODO_CREATED_AT);
-                      setSortDirection(flipSortDirection(sortDirection));
-                    }}
-                  >
-                    <span>Created At</span>
-                    {sortCol === TODO_SORTING_ATEGORIES.TODO_CREATED_AT &&
-                    sortDirection === SORT_DIRECTION.ASC ? (
-                      <SortAscendingIcon className='sortingIcon' />
-                    ) : (
-                      <SortDescendingIcon className='sortingIcon' />
-                    )}
-                  </div>
-                </th>
-                {/* <th>Updated At</th>
-                 */}
-                <th>
-                  <div
-                    className='titleWrapper'
-                    onClick={() => {
-                      setSortCol(TODO_SORTING_ATEGORIES.TODO_UPDATED_AT);
-                      setSortDirection(flipSortDirection(sortDirection));
-                    }}
-                  >
-                    <span>Updated At</span>
-                    {sortCol === TODO_SORTING_ATEGORIES.TODO_UPDATED_AT &&
-                    sortDirection === SORT_DIRECTION.ASC ? (
-                      <SortAscendingIcon className='sortingIcon' />
-                    ) : (
-                      <SortDescendingIcon className='sortingIcon' />
-                    )}
-                  </div>
-                </th>
-                {/* <th>Processing</th> */}
-                <th>
-                  <div
-                    className='titleWrapper'
-                    onClick={() => {
-                      setSortCol(TODO_SORTING_ATEGORIES.TODO_IS_GOING);
-                      setSortDirection(flipSortDirection(sortDirection));
-                    }}
-                  >
-                    <span>Processing</span>
-                    {sortCol === TODO_SORTING_ATEGORIES.TODO_IS_GOING &&
-                    sortDirection === SORT_DIRECTION.ASC ? (
-                      <SortAscendingIcon className='sortingIcon' />
-                    ) : (
-                      <SortDescendingIcon className='sortingIcon' />
-                    )}
-                  </div>
-                </th>
-                {/* <th>Email</th> */}
-                <th>
-                  <div
-                    className='titleWrapper'
-                    onClick={() => {
-                      setSortCol(TODO_SORTING_ATEGORIES.TODO_EMAIL);
-                      setSortDirection(flipSortDirection(sortDirection));
-                    }}
-                  >
-                    <span>Email</span>
-                    {sortCol === TODO_SORTING_ATEGORIES.TODO_EMAIL &&
-                    sortDirection === SORT_DIRECTION.ASC ? (
-                      <SortAscendingIcon className='sortingIcon' />
-                    ) : (
-                      <SortDescendingIcon className='sortingIcon' />
-                    )}
-                  </div>
-                </th>
-                {/* <th>Completed</th> */}
-                <th>
-                  <div
-                    className='titleWrapper'
-                    onClick={() => {
-                      setSortCol(TODO_SORTING_ATEGORIES.TODO_IS_COMPLETED);
-                      setSortDirection(flipSortDirection(sortDirection));
-                    }}
-                  >
-                    <span>Completed</span>
-                    {sortCol === TODO_SORTING_ATEGORIES.TODO_IS_COMPLETED &&
-                    sortDirection === SORT_DIRECTION.ASC ? (
-                      <SortAscendingIcon className='sortingIcon' />
-                    ) : (
-                      <SortDescendingIcon className='sortingIcon' />
-                    )}
-                  </div>
-                </th>
-
-                <th>
-                  <div className='titleWrapper'>Actions</div>
-                </th>
-              </tr>
+              <TableHeader
+                ref={checkbox}
+                checkedAll={checked}
+                onChangeCheckedAll={_selectedAll}
+                handleChangeSort={_handleChangeSort}
+                TODO_SORTING_CATEGORIES={TODO_SORTING_CATEGORIES}
+                SORT_DIRECTION={SORT_DIRECTION}
+                sortCol={sortCol}
+                sortDirection={sortDirection}
+              />
             </thead>
             <tbody>
               {finalDisplayData.map((item) => {
@@ -320,57 +175,22 @@ function Tables({ tableTitle, description, data }) {
                 } = item;
 
                 return (
-                  <tr
+                  <Row
                     key={id}
-                    className={`${
-                      completedTodos.includes(id)
-                        ? 'text-indigo-600'
-                        : 'text-gray-500'
-                    }`}
-                  >
-                    <td>
-                      <input
-                        type='checkbox'
-                        value={id}
-                        checked={isTodoSelected}
-                        onChange={(e) => {
-                          _handleSelectOneTodo(e, id);
-                        }}
-                      />
-                    </td>
-                    <td>{title}</td>
-                    <td>{showPriority(priority)}</td>
-                    <td>{createdAt}</td>
-                    <td>{updatedAt}</td>
-                    <td>{isGoing ? 'Yes' : 'No'}</td>
-                    <td>{email}</td>
-                    {/* isCompleted */}
-                    <td>
-                      <input
-                        type='checkbox'
-                        value={id}
-                        // defaultChecked={completedTodos.includes(id)}
-                        checked={completedTodos.includes(id)}
-                        onChange={() => _handleCompletedTodo(id)}
-                      />
-                    </td>
-                    <td>
-                      <button
-                        type='button'
-                        className='inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto mr-2'
-                        onClick={() => _handleEditTodo(item.id)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type='button'
-                        className='inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto'
-                        onClick={() => _handleRemoveTodo(item.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
+                    id={id}
+                    title={title}
+                    priority={priority}
+                    createdAt={createdAt}
+                    updatedAt={updatedAt}
+                    email={email}
+                    isGoing={isGoing}
+                    completedTodos={completedTodos}
+                    isTodoSelected={isTodoSelected}
+                    handleSelectOneTodo={_handleSelectOneTodo}
+                    handleEditTodo={_handleEditTodo}
+                    handleRemoveTodo={_handleRemoveTodo}
+                    handleCompletedTodo={_handleCompletedTodo}
+                  />
                 );
               })}
             </tbody>

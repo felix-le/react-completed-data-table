@@ -1,4 +1,4 @@
-import { TODO_SORTING_ATEGORIES, SORT_DIRECTION } from './constants';
+import { TODO_SORTING_CATEGORIES, SORT_DIRECTION } from './constants';
 
 const {
   TODO_TITLE,
@@ -9,7 +9,7 @@ const {
   TODO_IS_COMPLETED,
   TODO_EMAIL,
   TODO_REMAIN_TIME,
-} = TODO_SORTING_ATEGORIES;
+} = TODO_SORTING_CATEGORIES;
 
 const { ASC } = SORT_DIRECTION;
 

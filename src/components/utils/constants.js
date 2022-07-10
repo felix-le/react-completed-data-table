@@ -1,4 +1,4 @@
-const TODO_SORTING_ATEGORIES = {
+const TODO_SORTING_CATEGORIES = {
   TODO_TITLE: 'TODO_TITLE',
   TODO_PRIORITY: 'TODO_PRIORITY',
   TODO_CREATED_AT: 'TODO_CREATED_AT',
@@ -20,4 +20,4 @@ function flipSortDirection(oldDirection) {
     : SORT_DIRECTION.ASC;
 }
 
-export { TODO_SORTING_ATEGORIES, SORT_DIRECTION, flipSortDirection };
+export { TODO_SORTING_CATEGORIES, SORT_DIRECTION, flipSortDirection };
