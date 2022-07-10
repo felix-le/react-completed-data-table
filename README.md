@@ -9,7 +9,7 @@
 - Pagination component - working
 - unit tests - on going
 
-- Sort by columns
+- Sort by columns **[Link](https://github.com/felix-le/todoapp1/blob/main/src/components/Tables/Tables.js)**
 
 ```js
 const finalDisplayData = useMemo(
