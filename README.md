@@ -2,7 +2,7 @@
 
 # Overview
 
-**An application made by logical - reduced libraries and components.**
+**An application made by logic - reduced libraries and components.**
 
 - A todo list with useContext, tailwindcss, and jss
 - Filter component + checkbox + search - done
