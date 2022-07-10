@@ -6,8 +6,9 @@
 
 **An application made by logic - reduced libraries and components.**
 
-- A todo list with useContext, tailwindcss, and jss
-- Search + sort + filter - done
+- An application that can be used to create a data table.
+
+- Search + sort + filter - . Please play with search and check boxes. Enjoy!
 
 - Pagination component - working
 

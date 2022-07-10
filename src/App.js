@@ -10,8 +10,8 @@ function App() {
     <Tables
       data={todos}
       deleteTodo={deleteTodo}
-      tableTitle='Todo List'
-      description='An application made by logic - reduced libraries and components with useContext, useLayoutEffect, tailwindcss  '
+      tableTitle='Working with a data table'
+      description='An application made by logic - reduced libraries and components with useContext, useLayoutEffect, tailwindcss. The application is made with React Hooks, and Tailwind CSS. Please play with search and check boxes. Enjoy!'
     />
   );
 }

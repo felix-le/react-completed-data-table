@@ -80,9 +80,6 @@ function Tables({ tableTitle, description, data, deleteTodo }) {
     }
   };
 
-  const _handleEditTodo = (id) => {
-    console.log(id);
-  };
   const _handleDeleteTodo = (id) => {
     deleteTodo(id);
   };
@@ -187,7 +184,6 @@ function Tables({ tableTitle, description, data, deleteTodo }) {
                     completedTodos={completedTodos}
                     isTodoSelected={isTodoSelected}
                     handleSelectOneTodo={_handleSelectOneTodo}
-                    handleEditTodo={_handleEditTodo}
                     handleDeleteTodo={_handleDeleteTodo}
                     handleCompletedTodo={_handleCompletedTodo}
                   />
