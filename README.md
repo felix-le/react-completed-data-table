@@ -2,10 +2,12 @@
 
 # Overview
 
+**An application made by logical - reduced libraries and components.**
+
 - A todo list with useContext, tailwindcss, and jss
-- Filter component
-- Pagination component
-- unit tests
+- Filter component - manually
+- Pagination component - working
+- unit tests - on going
 
 - Sort by columns
 
