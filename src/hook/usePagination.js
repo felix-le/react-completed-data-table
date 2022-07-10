@@ -12,8 +12,9 @@ const usePaginationParams = (listLength = 0) => {
     setCurrentPage(1);
   }, [listLength]);
 
-  const handleChangePage = (newPage) => {
-    setCurrentPage(newPage);
+  const handleChangePage = (e, newPage) => {
+    e.preventDefault();
+    setCurrentPage(parseInt(newPage));
   };
 
   const handleChangeRowsPerPage = (event) => {

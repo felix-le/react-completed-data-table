@@ -20,4 +20,11 @@ function flipSortDirection(oldDirection) {
     : SORT_DIRECTION.ASC;
 }
 
-export { TODO_SORTING_CATEGORIES, SORT_DIRECTION, flipSortDirection };
+const ROW_PER_PAGE_DEFAULT = 10;
+
+export {
+  TODO_SORTING_CATEGORIES,
+  SORT_DIRECTION,
+  flipSortDirection,
+  ROW_PER_PAGE_DEFAULT,
+};

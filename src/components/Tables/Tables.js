@@ -6,9 +6,12 @@ import TableTitle from './TableTitle';
 import SearchBar from './SearchBar';
 import TableHeader from './TableHeader';
 import Row from './Row';
+import Pagination from '../Pagination';
 
 // Logic functions
 import getTodos from '../utils/getTodos';
+
+import usePaginationParams from '../../hook/usePagination';
 
 // constants
 import {
@@ -134,6 +137,16 @@ function Tables({ tableTitle, description, data, deleteTodo }) {
     setSortCol(col);
     setSortDirection(flipSortDirection(sortDirection));
   }
+
+  const {
+    currentPage,
+    rowsPerPage,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    setCurrentPage,
+    setRowsPerPage,
+  } = usePaginationParams(finalDisplayData?.length);
+
   return (
     <div className='px-4 sm:px-6 lg:px-8'>
       <TableTitle
@@ -158,40 +171,54 @@ function Tables({ tableTitle, description, data, deleteTodo }) {
               />
             </thead>
             <tbody>
-              {finalDisplayData.map((item) => {
-                const isTodoSelected = selectedTodos.includes(item.id);
+              {finalDisplayData
+                ?.slice(
+                  (currentPage - 1) * rowsPerPage,
+                  currentPage * rowsPerPage
+                )
+                .map((item) => {
+                  const isTodoSelected = selectedTodos.includes(item.id);
 
-                const {
-                  id,
-                  title,
-                  priority,
-                  createdAt,
-                  updatedAt,
-                  email,
-                  isGoing,
-                } = item;
+                  const {
+                    id,
+                    title,
+                    priority,
+                    createdAt,
+                    updatedAt,
+                    email,
+                    isGoing,
+                  } = item;
 
-                return (
-                  <Row
-                    key={id}
-                    id={id}
-                    title={title}
-                    priority={priority}
-                    createdAt={createdAt}
-                    updatedAt={updatedAt}
-                    email={email}
-                    isGoing={isGoing}
-                    completedTodos={completedTodos}
-                    isTodoSelected={isTodoSelected}
-                    handleSelectOneTodo={_handleSelectOneTodo}
-                    handleDeleteTodo={_handleDeleteTodo}
-                    handleCompletedTodo={_handleCompletedTodo}
-                  />
-                );
-              })}
+                  return (
+                    <Row
+                      key={id}
+                      id={id}
+                      title={title}
+                      priority={priority}
+                      createdAt={createdAt}
+                      updatedAt={updatedAt}
+                      email={email}
+                      isGoing={isGoing}
+                      completedTodos={completedTodos}
+                      isTodoSelected={isTodoSelected}
+                      handleSelectOneTodo={_handleSelectOneTodo}
+                      handleDeleteTodo={_handleDeleteTodo}
+                      handleCompletedTodo={_handleCompletedTodo}
+                    />
+                  );
+                })}
             </tbody>
           </table>
         </div>
+        <Pagination
+          totalItems={finalDisplayData?.length}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+        />
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ function randomTodoData() {
   return newTodo;
 }
 // Change the number for the number of todos you want to generate
-const todoData = Array.from({ length: 10 }, () => randomTodoData());
+const todoData = Array.from({ length: 100 }, () => randomTodoData());
 
 export const db = {
   todos: todoData,
