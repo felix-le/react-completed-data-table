@@ -2,13 +2,14 @@
 
 # Overview
 
+## Working with a data table
+
 **An application made by logic - reduced libraries and components.**
 
 - A todo list with useContext, tailwindcss, and jss
 - Search + sort + filter - done
 
 - Pagination component - working
-- unit tests - on going
 
 ```js
 const getTodos = (todos, searchTerm, sortCol, sortDirection) => {
