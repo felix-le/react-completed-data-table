@@ -2,7 +2,7 @@ import {
   READ_TODOS,
   // ADD_TODO,
   // UPDATE_TODO,
-  // DELETE_TODO,
+  DELETE_TODO,
   // COMPLETE_TODO,
 } from './actions';
 
@@ -12,6 +12,12 @@ const TodoReducer = (state, action) => {
       return {
         ...state,
         todos: action.payload,
+      };
+
+    case DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload),
       };
 
     default:

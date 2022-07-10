@@ -16,12 +16,20 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function _handleDeleteTodo(id) {
+    dispatch({
+      type: 'DELETE_TODO',
+      payload: id,
+    });
+  }
+
   useEffect(() => {
     _getTodos();
   }, []);
 
   const value = {
     todos: state.todos,
+    deleteTodo: _handleDeleteTodo,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

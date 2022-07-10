@@ -42,7 +42,7 @@ const tableStyles = createUseStyles({
   },
 });
 
-function Tables({ tableTitle, description, data }) {
+function Tables({ tableTitle, description, data, deleteTodo }) {
   const checkbox = React.createRef();
   const classes = tableStyles({});
 
@@ -83,8 +83,8 @@ function Tables({ tableTitle, description, data }) {
   const _handleEditTodo = (id) => {
     console.log(id);
   };
-  const _handleRemoveTodo = (id) => {
-    console.log(id);
+  const _handleDeleteTodo = (id) => {
+    deleteTodo(id);
   };
   const _handleAddTodo = () => {
     console.log('add todo');
@@ -188,7 +188,7 @@ function Tables({ tableTitle, description, data }) {
                     isTodoSelected={isTodoSelected}
                     handleSelectOneTodo={_handleSelectOneTodo}
                     handleEditTodo={_handleEditTodo}
-                    handleRemoveTodo={_handleRemoveTodo}
+                    handleDeleteTodo={_handleDeleteTodo}
                     handleCompletedTodo={_handleCompletedTodo}
                   />
                 );
