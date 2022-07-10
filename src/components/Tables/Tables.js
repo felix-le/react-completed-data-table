@@ -302,7 +302,7 @@ function Tables({ tableTitle, description, data }) {
                 </th>
 
                 <th>
-                  <div className='titleWrapper'>Action</div>
+                  <div className='titleWrapper'>Actions</div>
                 </th>
               </tr>
             </thead>
