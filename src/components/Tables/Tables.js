@@ -23,11 +23,13 @@ const tableStyles = createUseStyles({
     '& th': {
       cursor: 'pointer',
       height: '30px',
-
+      padding: '10px',
+      background: 'gray',
       '& .titleWrapper': {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        background: '#fff',
       },
     },
 
@@ -159,16 +161,27 @@ function Tables({ tableTitle, description, data }) {
             <thead>
               <tr>
                 <th>
-                  <input
-                    type='checkbox'
-                    className='left-4 top-1/2 -mt-2 h-4 w-4 rounded text-indigo-600 focus:ring-indigo-500 sm:left-6'
-                    ref={checkbox}
-                    checked={checked}
-                    onChange={_selectedAll}
-                  />
+                  <div
+                    className='titleWrapper'
+                    style={{ height: '100%', paddingTop: '5px' }}
+                  >
+                    <input
+                      type='checkbox'
+                      className='left-4 top-1/2 -mt-2 h-4 w-4 rounded text-indigo-600 focus:ring-indigo-500 sm:left-6'
+                      ref={checkbox}
+                      checked={checked}
+                      onChange={_selectedAll}
+                    />
+                  </div>
                 </th>
                 <th>
-                  <div className='titleWrapper'>
+                  <div
+                    className='titleWrapper'
+                    onClick={() => {
+                      setSortCol(TODO_SORTING_ATEGORIES.TODO_TITLE);
+                      setSortDirection(flipSortDirection(sortDirection));
+                    }}
+                  >
                     <span>Title</span>
                     {sortCol === TODO_SORTING_ATEGORIES.TODO_TITLE &&
                     sortDirection === SORT_DIRECTION.ASC ? (
@@ -180,7 +193,13 @@ function Tables({ tableTitle, description, data }) {
                 </th>
                 {/* <th>Priority</th> */}
                 <th>
-                  <div className='titleWrapper'>
+                  <div
+                    className='titleWrapper'
+                    onClick={() => {
+                      setSortCol(TODO_SORTING_ATEGORIES.TODO_PRIORITY);
+                      setSortDirection(flipSortDirection(sortDirection));
+                    }}
+                  >
                     <span>Priority</span>
                     {sortCol === TODO_SORTING_ATEGORIES.TODO_PRIORITY &&
                     sortDirection === SORT_DIRECTION.ASC ? (
@@ -192,7 +211,13 @@ function Tables({ tableTitle, description, data }) {
                 </th>
                 {/* <th>createdAt</th> */}
                 <th>
-                  <div className='titleWrapper'>
+                  <div
+                    className='titleWrapper'
+                    onClick={() => {
+                      setSortCol(TODO_SORTING_ATEGORIES.TODO_CREATED_AT);
+                      setSortDirection(flipSortDirection(sortDirection));
+                    }}
+                  >
                     <span>Created At</span>
                     {sortCol === TODO_SORTING_ATEGORIES.TODO_CREATED_AT &&
                     sortDirection === SORT_DIRECTION.ASC ? (
@@ -205,7 +230,13 @@ function Tables({ tableTitle, description, data }) {
                 {/* <th>Updated At</th>
                  */}
                 <th>
-                  <div className='titleWrapper'>
+                  <div
+                    className='titleWrapper'
+                    onClick={() => {
+                      setSortCol(TODO_SORTING_ATEGORIES.TODO_UPDATED_AT);
+                      setSortDirection(flipSortDirection(sortDirection));
+                    }}
+                  >
                     <span>Updated At</span>
                     {sortCol === TODO_SORTING_ATEGORIES.TODO_UPDATED_AT &&
                     sortDirection === SORT_DIRECTION.ASC ? (
@@ -217,7 +248,13 @@ function Tables({ tableTitle, description, data }) {
                 </th>
                 {/* <th>Processing</th> */}
                 <th>
-                  <div className='titleWrapper'>
+                  <div
+                    className='titleWrapper'
+                    onClick={() => {
+                      setSortCol(TODO_SORTING_ATEGORIES.TODO_IS_GOING);
+                      setSortDirection(flipSortDirection(sortDirection));
+                    }}
+                  >
                     <span>Processing</span>
                     {sortCol === TODO_SORTING_ATEGORIES.TODO_IS_GOING &&
                     sortDirection === SORT_DIRECTION.ASC ? (
@@ -229,7 +266,13 @@ function Tables({ tableTitle, description, data }) {
                 </th>
                 {/* <th>Email</th> */}
                 <th>
-                  <div className='titleWrapper'>
+                  <div
+                    className='titleWrapper'
+                    onClick={() => {
+                      setSortCol(TODO_SORTING_ATEGORIES.TODO_EMAIL);
+                      setSortDirection(flipSortDirection(sortDirection));
+                    }}
+                  >
                     <span>Email</span>
                     {sortCol === TODO_SORTING_ATEGORIES.TODO_EMAIL &&
                     sortDirection === SORT_DIRECTION.ASC ? (
@@ -241,7 +284,13 @@ function Tables({ tableTitle, description, data }) {
                 </th>
                 {/* <th>Completed</th> */}
                 <th>
-                  <div className='titleWrapper'>
+                  <div
+                    className='titleWrapper'
+                    onClick={() => {
+                      setSortCol(TODO_SORTING_ATEGORIES.TODO_IS_COMPLETED);
+                      setSortDirection(flipSortDirection(sortDirection));
+                    }}
+                  >
                     <span>Completed</span>
                     {sortCol === TODO_SORTING_ATEGORIES.TODO_IS_COMPLETED &&
                     sortDirection === SORT_DIRECTION.ASC ? (
@@ -252,7 +301,9 @@ function Tables({ tableTitle, description, data }) {
                   </div>
                 </th>
 
-                <th>Action</th>
+                <th>
+                  <div className='titleWrapper'>Action</div>
+                </th>
               </tr>
             </thead>
             <tbody>
