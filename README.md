@@ -5,7 +5,7 @@
 **An application made by logical - reduced libraries and components.**
 
 - A todo list with useContext, tailwindcss, and jss
-- Filter component - manually
+- Filter component + checkbox + search - done
 - Pagination component - working
 - unit tests - on going
 
