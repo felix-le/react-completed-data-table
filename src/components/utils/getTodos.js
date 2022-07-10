@@ -12,6 +12,15 @@ const {
 } = TODO_SORTING_CATEGORIES;
 
 const { ASC } = SORT_DIRECTION;
+// const getSelectedTodos = (todos, todoSelection) => {
+//   if (!todoSelection.length) {
+//     return todos;
+//   }
+
+//   return todos.filter((todo) => {
+//     return todoSelection.includes(todo.id);
+//   });
+// };
 
 const getSearchedTodos = (todos, searchTerm) => {
   if (!searchTerm) {
@@ -22,15 +31,6 @@ const getSearchedTodos = (todos, searchTerm) => {
   });
 };
 
-// const getSelectedTodos = (todos, todoSelection) => {
-//   if (!todoSelection.length) {
-//     return todos;
-//   }
-
-//   return todos.filter((todo) => {
-//     return todoSelection.includes(todo.id);
-//   });
-// };
 const getSortTodos = (todos, sortCol, sortDirection) => {
   if (!sortCol || !sortDirection) {
     return todos;

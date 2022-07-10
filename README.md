@@ -5,18 +5,33 @@
 **An application made by logic - reduced libraries and components.**
 
 - A todo list with useContext, tailwindcss, and jss
-- Filter component + checkbox + search - done
+- Search + sort + filter - done
+
 - Pagination component - working
 - unit tests - on going
 
-- Sort by columns **[Link](https://github.com/felix-le/todoapp1/blob/main/src/components/Tables/Tables.js)**
-
 ```js
+const getTodos = (todos, searchTerm, sortCol, sortDirection) => {
+  const searchedTodos = getSearchedTodos(todos, searchTerm);
+  // const selectedTodos = getSelectedTodos(searchedTodos, todoSelection);
+  const sortedTodos = getSortTodos(searchedTodos, sortCol, sortDirection);
+  return sortedTodos;
+};
+
+export default getTodos;
+
+// -- component --
 const finalDisplayData = useMemo(
   () => getTodos(displayTodos, searchTerm, sortCol, sortDirection),
   [displayTodos, searchTerm, sortCol, sortDirection]
 );
+```
 
+- Sort by columns **[Link](https://github.com/felix-le/todoapp1/blob/main/src/components/Tables/Tables.js)**
+
+- Update checkbox below
+
+```js
 useLayoutEffect(() => {
   const completedTodos = finalDisplayData.filter((todo) => todo.isCompleted);
   const completedTodosDefault = completedTodos.map((todo) => {
