@@ -138,14 +138,9 @@ function Tables({ tableTitle, description, data, deleteTodo }) {
     setSortDirection(flipSortDirection(sortDirection));
   }
 
-  const {
-    currentPage,
-    rowsPerPage,
-    handleChangePage,
-    handleChangeRowsPerPage,
-    setCurrentPage,
-    setRowsPerPage,
-  } = usePaginationParams(finalDisplayData?.length);
+  const { currentPage, rowsPerPage, handleChangePage } = usePaginationParams(
+    finalDisplayData?.length
+  );
 
   return (
     <div className='px-4 sm:px-6 lg:px-8'>
@@ -210,14 +205,15 @@ function Tables({ tableTitle, description, data, deleteTodo }) {
             </tbody>
           </table>
         </div>
+        {/*   totalItems,
+  rowsPerPage,
+  handleChangePage,
+  currentPage, */}
         <Pagination
           totalItems={finalDisplayData?.length}
           currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
           rowsPerPage={rowsPerPage}
           handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-          setRowsPerPage={setRowsPerPage}
         />
       </div>
     </div>

@@ -32,9 +32,6 @@ const Pagination = ({
   rowsPerPage,
   handleChangePage,
   currentPage,
-  handleChangeRowsPerPage,
-  setCurrentPage,
-  setRowsPerPage,
 }) => {
   const classes = paginationStyles({});
   const [firstPage, setFirstPage] = useState(false);

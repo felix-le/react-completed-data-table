@@ -100,7 +100,4 @@ export const db = {
 
 # Next version
 
-1. use TypeScript
-2. use Redux
-3. material ui
-4. axios-mock-adapter
+[TypeScript Version](https://github.com/felix-le/react-completed-data-table-ts)
